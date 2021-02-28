@@ -12,10 +12,13 @@ void processTheLine(string currentLine);
 struct Country{
     string name;
     int score;
+    Country() : score(0)
+    {
+    }
 };
 
 //Храним все страны в одном векторе
-vector<Country> AllCountries;
+vector<Country*> AllCountries;
 
 int main() {
     //Ввод папки с файлами
@@ -59,5 +62,19 @@ void processTheFile(string pathToFile) {
 }
 
 void processTheLine(string currentLine){
-    //TODO: запилить обработку строки
+    //Создание элемента в векторе стран
+    AllCountries.push_back(new Country());
+
+    //Чтение и запись названия страны
+    string separator = ",";
+    AllCountries.back()->name = currentLine.substr(0, currentLine.find(separator));
+
+    //Подсчет общего количества баллов
+    string scoreString = currentLine.substr(currentLine.find(separator) + 1);
+    int current_index = scoreString.find(separator);
+    while(current_index != string::npos){
+        int current_score = stoi(scoreString.substr(0, current_index));
+        AllCountries.back()->score += current_score;
+        scoreString.erase(0, current_index + 1);
+    }
 }
