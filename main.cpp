@@ -66,6 +66,15 @@ void processTheLine(string currentLine){
     AllCountries.push_back(new Country());
 
     //Чтение и запись названия страны
-    //AllCountries.back().name = currentLine.substr(0, currentLine.find(","));
+    string separator = ",";
+    AllCountries.back()->name = currentLine.substr(0, currentLine.find(separator));
 
+    //Подсчет общего количества баллов
+    string scoreString = currentLine.substr(currentLine.find(separator) + 1);
+    int current_index = scoreString.find(separator);
+    while(current_index != string::npos){
+        int current_score = stoi(scoreString.substr(0, current_index));
+        AllCountries.back()->score += current_score;
+        scoreString.erase(0, current_index + 1);
+    }
 }
