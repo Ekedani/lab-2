@@ -2,9 +2,11 @@
 #include <string>
 #include <filesystem>
 #include <vector>
+#include <fstream>
 namespace fs = std::filesystem;
 using namespace std;
 void processTheFile(string pathToFile);
+void processTheLine(string currentLine);
 
 //Структура для хранения информации про страну
 struct Country{
@@ -35,5 +37,27 @@ int main() {
 }
 
 void processTheFile(string pathToFile) {
-    //TODO: нужно открыть файл на чтение и работать со структурой
+    //Открытие файла на чтение
+    ifstream inFile;
+    inFile.open(pathToFile);
+
+    //Считываем количество стран в файле
+    int numberOfLines;
+    inFile >> numberOfLines;
+
+    //Итерация по странам
+    string currentLine;
+    int i = 0;
+    while(i<=numberOfLines){
+        getline(inFile, currentLine);
+        processTheLine(currentLine);
+        i++;
+    }
+
+    //Закрытие файла
+    inFile.close();
+}
+
+void processTheLine(string currentLine){
+    //TODO: запилить обработку строки
 }
