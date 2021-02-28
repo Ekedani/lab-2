@@ -8,6 +8,7 @@ using namespace std;
 void processTheFile(string pathToFile);
 void processTheLine(string currentLine);
 void sortTheVector();
+void outputTheResult();
 
 //Структура для хранения информации про страну
 struct Country{
@@ -87,4 +88,16 @@ void sortTheVector(){
             swap(AllCountries[j - 1],AllCountries[j]);
         }
     }
+}
+
+void outputTheResult(){
+    //Создание файла на запись
+    ofstream outFile;
+    outFile.open("result.csv");
+
+    //Запись результатов в файл
+    //TODO: нужно согласовать в каком порядке и что мы собираемся выводить
+
+    //Закрытие файла
+    outFile.close();
 }
