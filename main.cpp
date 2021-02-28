@@ -78,7 +78,10 @@ void processTheLine(string currentLine){
         int current_score = stoi(scoreString.substr(0, current_index));
         AllCountries.back()->score += current_score;
         scoreString.erase(0, current_index + 1);
+        current_index = scoreString.find(separator);
     }
+    int current_score = stoi(scoreString.substr(0, current_index));
+    AllCountries.back()->score += current_score;
 }
 
 void sortTheVector(){
