@@ -7,6 +7,7 @@ namespace fs = std::filesystem;
 using namespace std;
 void processTheFile(string pathToFile);
 void processTheLine(string currentLine);
+void sortTheVector();
 
 //Структура для хранения информации про страну
 struct Country{
@@ -76,5 +77,14 @@ void processTheLine(string currentLine){
         int current_score = stoi(scoreString.substr(0, current_index));
         AllCountries.back()->score += current_score;
         scoreString.erase(0, current_index + 1);
+    }
+}
+
+void sortTheVector(){
+    //Сортировка вставками
+    for(int i = 1; i < AllCountries.size(); i++){
+        for(int j = i; j > 0 && AllCountries[j - 1]->score > AllCountries[j]->score; j--){
+            swap(AllCountries[j - 1],AllCountries[j]);
+        }
     }
 }
