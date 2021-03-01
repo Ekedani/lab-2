@@ -20,4 +20,4 @@ struct Country{
 void processTheFile(string pathToFile, vector<Country*> AllCountries);
 void processTheLine(string currentLine, vector<Country*> AllCountries);
 void sortTheVector(vector<Country*> AllCountries);
-void outputTheResult(vector<Country*> AllCountries);
+void outputTheResult(string pathToDirectory, vector<Country*> AllCountries);

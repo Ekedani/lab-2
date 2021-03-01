@@ -17,5 +17,7 @@ int main() {
     for (int i = 0; i < pathsToFiles.size(); ++i) {
         processTheFile(pathsToFiles[i], AllCountries);
     }
+    sortTheVector(vector<Country*> AllCountries);
+    outputTheResult(pathToDirectory, vector<Country*> AllCountries);
     return 0;
 }

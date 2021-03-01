@@ -12,7 +12,8 @@ void processTheFile(string pathToFile, vector<Country*> AllCountries) {
     //Итерация по странам
     string currentLine;
     int i = 0;
-    while(i<=numberOfLines){
+    inFile.ignore();
+    while(i<numberOfLines){
         getline(inFile, currentLine);
         processTheLine(currentLine, AllCountries);
         i++;
@@ -22,7 +23,6 @@ void processTheFile(string pathToFile, vector<Country*> AllCountries) {
     inFile.close();
 }
 
-//TODO: Исправить баг с передачей пустой строки в функцию
 void processTheLine(string currentLine, vector<Country*> AllCountries){
     //Создание элемента в векторе стран
     AllCountries.push_back(new Country());
@@ -47,31 +47,23 @@ void processTheLine(string currentLine, vector<Country*> AllCountries){
 void sortTheVector(vector<Country*> AllCountries){
     //Сортировка вставками
     for(int i = 1; i < AllCountries.size(); i++){
-        for(int j = i; j > 0 && AllCountries[j - 1]->score > AllCountries[j]->score; j--){
+        for(int j = i; j > 0 && AllCountries[j - 1]->score < AllCountries[j]->score; j--){
             swap(AllCountries[j - 1],AllCountries[j]);
         }
     }
 }
 
-void outputTheResult(vector<Country*> AllCountries){
+void outputTheResult(string pathToDirectory, vector<Country*> AllCountries){
     //Создание файла на запись
     ofstream outFile;
-    //TODO: проверь правильно ли будет создаваться файл
-    outFile.open("result.csv");
+    outFile.open(pathToDirectory + "result.csv");
 
-    //Запись результатов в файл
-    //TODO: нужно согласовать в каком порядке и что мы собираемся выводить
-    //UPD: Балл,Страна,КоличествоГолосов
-    //Баллы: 12, 10, 8, 7, 6, 5, 4, 3, 2, 1
-    for(int countryNum = 0; countryNum < 10; countryNum++){
-        //TODO: сделай так, чтобы в файл выводились нужные баллы
-        int mark = 12;
-
-        //TODO: проверь правильный ли будет вывод в файле result по такому принципу
-        outFile << mark << "," << AllCountries[countryNum]->name << "," << AllCountries[countryNum]->score << endl;
+    //Запись 10 лучших из вектора в файл
+    int ranking[10] = {12, 10, 8, 7, 6, 5, 4, 3, 2, 1};
+    for (int i = 0; i < 10; ++i) {
+        outFile << (*AllCountries[i]).name << ","
+        <<(*AllCountries[i]).score << "," << ranking[i] << endl;
     }
-    //TODO: проверь результат: если он не будет совпадать с итогом, то обрати внимание на передачу вектора в функции
-
     //Закрытие файла
     outFile.close();
 }
