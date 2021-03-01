@@ -8,7 +8,7 @@ using namespace std;
 void processTheFile(string pathToFile);
 void processTheLine(string currentLine);
 void sortTheVector();
-void outputTheResult();
+void outputTheResult(string pathToDirectory);
 
 //Структура для хранения информации про страну
 struct Country{
@@ -39,7 +39,7 @@ int main() {
         processTheFile(pathsToFiles[i]);
     }
     sortTheVector();
-    outputTheResult();
+    outputTheResult(pathToDirectory);
     return 0;
 }
 
@@ -96,10 +96,10 @@ void sortTheVector(){
     }
 }
 
-void outputTheResult(){
+void outputTheResult(string pathToDirectory){
     //Создание файла на запись
     ofstream outFile;
-    outFile.open("result.csv");
+    outFile.open(pathToDirectory + "result.csv");
 
     //Запись 10 лучших из вектора в файл
     int ranking[10] = {12, 10, 8, 7, 6, 5, 4, 3, 2, 1};
