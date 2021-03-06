@@ -7,6 +7,7 @@ namespace fs = std::filesystem;
 using namespace std;
 void processTheFile(string pathToFile);
 void processTheLine(string currentLine);
+void countingScores();
 void sortTheVector();
 void outputTheResult(string pathToDirectory);
 
@@ -22,6 +23,8 @@ struct Country{
 //Храним все страны в одном векторе
 vector<Country*> AllCountries;
 
+vector<vector<int>> Lines;
+
 int main() {
     //Ввод папки с файлами
     string pathToDirectory;
@@ -34,10 +37,14 @@ int main() {
         pathsToFiles.push_back(entry.path().string());
     }
 
+    cout << "=========================" << endl;
     //Обработка каждого файла папки
     for (int i = 0; i < pathsToFiles.size(); ++i) {
+        cout << pathsToFiles[i] << endl;
         processTheFile(pathsToFiles[i]);
     }
+
+    countingScores();
     sortTheVector();
     outputTheResult(pathToDirectory);
     return 0;
@@ -74,17 +81,41 @@ void processTheLine(string currentLine){
     string separator = ",";
     AllCountries.back()->name = currentLine.substr(0, currentLine.find(separator));
 
+    vector <int> Current_line;
+
     //Подсчет общего количества баллов
     string scoreString = currentLine.substr(currentLine.find(separator) + 1);
     int current_index = scoreString.find(separator);
     while(current_index != string::npos){
         int current_score = stoi(scoreString.substr(0, current_index));
-        AllCountries.back()->score += current_score;
+        Current_line.push_back(current_score);
         scoreString.erase(0, current_index + 1);
         current_index = scoreString.find(separator);
     }
     int current_score = stoi(scoreString.substr(0, current_index));
-    AllCountries.back()->score += current_score;
+    Current_line.push_back(current_score);
+    Lines.push_back(Current_line);
+}
+
+void countingScores(){
+    int ranking[10] = {12,10,8,7,6,5,4,3,2,1};
+    for (int column = 0; column < Lines[0].size(); ++column) {
+        int i = 0;
+        while(i<Lines.size()) {
+            int max = 0;
+            int ind_max = 0;
+            for (int row = 0; row < Lines.size(); ++row) {
+                if (Lines[row][column] > max) {
+                    max = Lines[row][column];
+                    ind_max = row;
+                }
+            }
+            Lines[ind_max][column] = -1;
+            AllCountries[ind_max]->score += ranking[i];
+            i++;
+            if(i>=10) break;
+        }
+    }
 }
 
 void sortTheVector(){
@@ -102,10 +133,9 @@ void outputTheResult(string pathToDirectory){
     outFile.open(pathToDirectory + "result.csv");
 
     //Запись 10 лучших из вектора в файл
-    int ranking[10] = {12, 10, 8, 7, 6, 5, 4, 3, 2, 1};
     for (int i = 0; i < 10; ++i) {
         outFile << (*AllCountries[i]).name << ","
-        <<(*AllCountries[i]).score << "," << ranking[i] << endl;
+        <<(*AllCountries[i]).score << endl;
     }
     //Закрытие файла
     outFile.close();
