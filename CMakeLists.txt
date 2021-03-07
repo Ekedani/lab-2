@@ -3,4 +3,10 @@ project(lab_2)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(lab_2 main.cpp)
+include_directories(.)
+
+add_executable(lab_2
+        main.cpp
+        "processing_files .cpp"
+        "processing_files .h"
+)
